@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activesupport', '~> 5.0'
+  spec.add_dependency 'activesupport', '>= 5.0', '< 6.2'
   spec.add_dependency 'json', '>= 1.8.0'
   spec.add_dependency 'nokogiri', '>= 1.7.0'
   spec.add_dependency 'rgeo', '~> 2.0'
