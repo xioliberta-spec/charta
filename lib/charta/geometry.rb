@@ -388,7 +388,13 @@ stroke_linejoin: options[:stroke_linejoin], stroke_width: options[:stroke_width]
         end
 
         def projected_factory(srid)
-          proj4 = '+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'
+          # Palier 5: +type=crs is required for rgeo-proj4 3.x's #get_geographic
+          # (used internally by RGeo::Geographic.projected_factory to derive the
+          # WGS84 companion CRS). Without it, PROJ 6+'s proj_crs_get_geodetic_crs
+          # rejects the raw definition ("Object is not a CRS") since it isn't
+          # explicitly typed as a full CRS -- 2.0.1's legacy proj_api.h-based
+          # implementation didn't make this distinction.
+          proj4 = '+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs'
           RGeo::Geographic.projected_factory(
             srid: srid,
             wkt_generator: {
