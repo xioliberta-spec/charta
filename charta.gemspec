@@ -20,7 +20,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri', '>= 1.7.0'
   spec.add_dependency 'rgeo', '~> 2.0'
   spec.add_dependency 'rgeo-geojson', '~> 2.0'
-  spec.add_dependency 'rgeo-proj4', '~> 2.0'
+  # Palier 5: 2.0.1 needs the legacy proj_api.h header, which PROJ dropped
+  # entirely (deprecated since PROJ 5, gone by PROJ 7/8) -- its native ext
+  # silently fails to build against modern libproj-dev, and Proj4.supported?
+  # returns false. 3.1.x uses the modern proj.h API while staying on
+  # rgeo ~> 2.0 (4.0+ requires rgeo ~> 3.0, a bigger, separate jump).
+  spec.add_dependency 'rgeo-proj4', '~> 3.1'
   spec.add_dependency 'victor', '~> 0.3.3'
   spec.add_dependency 'zeitwerk', '>= 2.4.0'
 
